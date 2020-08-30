@@ -65,11 +65,11 @@ RUN cd craigslistbargain/data/ && \
 	curl -o test.json -O https://worksheets.codalab.org/rest/bundles/0x54d325bbcfb2463583995725ed8ca42b/contents/blob/
 
 # compute artifacts
-RUN cd craigslistbargain && python core/price_tracker.py --train-examples-path ./data/train.json --output price-tracker.pkl
+RUN cd craigslistbargain && python core/price_tracker.py --train-examples-path ./data/train.json --output price_tracker.pkl
 RUN cd craigslistbargain && \
 	python parse_dialogue.py \
 	--transcripts data/train.json \
-	--price-tracker price-tracker.pkl \
+	--price-tracker price_tracker.pkl \
 	--max-examples -1 \
 	--templates-output ./data/train_templates.pkl \
 	--model-output ./data/train_model.pkl \
@@ -77,7 +77,7 @@ RUN cd craigslistbargain && \
 RUN cd craigslistbargain && \
 	python parse_dialogue.py \
 	--transcripts data/dev.json \
-	--price-tracker price-tracker.pkl \
+	--price-tracker price_tracker.pkl \
 	--max-examples -1 \
 	--templates-output ./data/dev_templates.pkl \
 	--model-output ./data/dev_model.pkl \
@@ -85,31 +85,31 @@ RUN cd craigslistbargain && \
 RUN cd craigslistbargain && \
 	python parse_dialogue.py \
 	--transcripts data/test.json \
-	--price-tracker price-tracker.pkl \
+	--price-tracker price_tracker.pkl \
 	--max-examples -1 \
 	--templates-output ./data/test_templates.pkl \
 	--model-output ./data/test_model.pkl \
 	--transcripts-output ./data/test_parsed.json
 
 # add vocab.pkl and config.json
-RUN mkdir -p mappings/lf2lf && \
-	cd mappings/lf2lf && \
-	curl -o vocab.pkl -O https://worksheets.codalab.org/rest/bundles/0x01574b97746d4cbab4a48e432a763fa7/contents/blob/mappings/seq2seq/vocab.pkl
-RUN mkdir -p checkpoint/lf2lf && \
-	cd checkpoint/lf2lf && \
+RUN mkdir -p craigslistbargain/mappings/lf2lf && \
+	cd craigslistbargain/mappings/lf2lf && \
+	curl -o vocab.pkl -O https://worksheets.codalab.org/rest/bundles/0xab2055ab75de4c9c825a804795ddb120/contents/blob/mappings/lf2lf/vocab.pkl
+RUN mkdir -p craigslistbargain/checkpoint/lf2lf && \
+	cd craigslistbargain/checkpoint/lf2lf && \
 	curl -o config.json -O https://worksheets.codalab.org/rest/bundles/0xab2055ab75de4c9c825a804795ddb120/contents/blob/checkpoint/lf2lf/config.json
 
 # download base model
-RUN cd checkpoint/lf2lf && \
+RUN cd craigslistbargain/checkpoint/lf2lf && \
 	curl -o model_best.pt -O https://worksheets.codalab.org/rest/bundles/0xab2055ab75de4c9c825a804795ddb120/contents/blob/checkpoint/lf2lf/model_best.pt
 
 # download all finetuned models
-RUN mkdir checkpoint/lf2lf-margin && \
+RUN mkdir craigslistbargain/checkpoint/lf2lf-margin && \
 	cd checkpoint/lf2lf-margin && \
 	curl -O https://worksheets.codalab.org/rest/bundles/0xd658de343912461598ce53dc9354dc60/contents/blob/checkpoint/lf2lf-margin/model_best.pt
-RUN mkdir checkpoint/lf2lf-fair && \
-	cd checkpoint/lf2lf-fair && \
+RUN mkdir craigslistbargain/checkpoint/lf2lf-fair && \
+	cd craigslistbargain/checkpoint/lf2lf-fair && \
 	curl -O https://worksheets.codalab.org/rest/bundles/0x5120cbb5102e41058c66a80fc34107d1/contents/blob/checkpoint/lf2lf-margin/model_best.pt
-RUN mkdir checkpoint/lf2lf-length && \
-	cd checkpoint/lf2lf-length && \
+RUN mkdir craigslistbargain/checkpoint/lf2lf-length && \
+	cd craigslistbargain/checkpoint/lf2lf-length && \
 	curl -O https://worksheets.codalab.org/rest/bundles/0x5120cbb5102e41058c66a80fc34107d1/contents/blob/checkpoint/lf2lf-margin/model_best.pt
