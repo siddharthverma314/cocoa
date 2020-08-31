@@ -53,3 +53,4 @@ if __name__ == "__main__":
 
     #model = model_builder.make_base_model(args, mappings, False, checkpoint=checkpoint)
     system = PytorchNeuralSystem(args, schema, price_tracker, model_path, False)
+    session = system.new_session(0, kb) # agent: number - 0, 1, kb - No clue
