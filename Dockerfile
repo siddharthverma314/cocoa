@@ -105,7 +105,7 @@ RUN cd craigslistbargain/checkpoint/lf2lf && \
 
 # download all finetuned models
 RUN mkdir craigslistbargain/checkpoint/lf2lf-margin && \
-	cd checkpoint/lf2lf-margin && \
+	cd craigslistbargain/checkpoint/lf2lf-margin && \
 	curl -O https://worksheets.codalab.org/rest/bundles/0xd658de343912461598ce53dc9354dc60/contents/blob/checkpoint/lf2lf-margin/model_best.pt
 RUN mkdir craigslistbargain/checkpoint/lf2lf-fair && \
 	cd craigslistbargain/checkpoint/lf2lf-fair && \
