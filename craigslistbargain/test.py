@@ -13,7 +13,6 @@ FILE_PATH = Path(__file__).absolute().parent
 SCHEMA_PATH = str(FILE_PATH/"data"/"craigslist-schema.json")
 MODEL_PATH = str(FILE_PATH/"checkpoint"/"lf2lf"/"model_best.pt")
 PRICE_TRACKER_PATH = str(FILE_PATH/"price_tracker.pkl")
-MAPPINGS_PATH = str(FILE_PATH/"mappings"/"lf2lf"/"vocab.pkl")
 DATA_PATH = str(FILE_PATH/"data"/"dev.json")
 
 
@@ -53,10 +52,6 @@ def load_neural_system(use_gpu=False):
 
     with open(PRICE_TRACKER_PATH) as f:
         price_tracker = pickle.load(f)
-    with open(MAPPINGS_PATH) as f:
-        mappings = pickle.load(f)
-        mappings['src_vocab'] = mappings['utterance_vocab']
-        mappings['tgt_vocab'] = mappings['utterance_vocab']
     schema = Schema(SCHEMA_PATH)
 
     system = PytorchNeuralSystem(args, schema, price_tracker, MODEL_PATH, False)
